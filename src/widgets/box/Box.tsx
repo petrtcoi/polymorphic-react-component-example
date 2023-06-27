@@ -3,6 +3,7 @@ import {
   type ComponentPropsWithRef,
   type ReactNode,
   type ElementType,
+  type CSSProperties,
 } from "react"
 
 import { type PolymorphicRef } from "@/shared/types"
@@ -13,15 +14,12 @@ const DEFAULT_ELEMENT = "div"
 type BasicProps<T extends ElementType = ElementType> = {
   as?: T
   children: ReactNode
-  margin?: string
-  padding?: string
-  background?: string
-  color?: string
 }
 
 /** Helper types for Polymorphic */
 type BoxProps<T extends ElementType> = BasicProps<T> &
-  Omit<ComponentPropsWithRef<T>, keyof BasicProps>
+  Omit<ComponentPropsWithRef<T>, keyof BasicProps> &
+  CSSProperties
 
 type BoxType = <T extends ElementType = typeof DEFAULT_ELEMENT>(
   props: BoxProps<T>
@@ -33,22 +31,14 @@ const Box: BoxType = forwardRef(
     props: BoxProps<T>,
     ref: PolymorphicRef<T>
   ) => {
-    const {
-      as = DEFAULT_ELEMENT,
-      children,
-      margin,
-      padding,
-      background,
-      color,
-      ...options
-    } = props
+    const { as = DEFAULT_ELEMENT, children, ...options } = props
 
     const HtmlTag = as
 
     return (
       <HtmlTag
         ref={ref}
-        style={{ margin, padding, backgroundColor: background, color }}
+        style={{ ...options }}
         {...options}
       >
         {children}

@@ -12,12 +12,13 @@ function App() {
     <>
       <h1>Box Example</h1>
       <Box
-        // as="a"
-        // href="https://google.com"
-        // target="_blank"
+        as="a"
+        href="https://google.com"
+        target="_blank"
         margin="20px"
         padding="5px"
-        background="red"
+        background-color="red"
+        border="1px solid yellow"
         color="green"
         ref={ref}
       >
